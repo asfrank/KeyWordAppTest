@@ -5,7 +5,7 @@ public class Constants {
      *  定义Excel文件路径
      */
     public class ExcelPath {
-        public static final String FilePath = "";
+        public static final String FilePath = "data/login.xlsx";
     }
     /**
      *  测试调度文件列常量

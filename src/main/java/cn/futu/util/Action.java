@@ -96,7 +96,29 @@ public class Action {
     /**
      * 等待Activity跳转
      */
-    public void waitForLoadingActivity(MobileElement mobileElement, String data) {
+    public void waitForLoadingActivity(MobileElement mobileElement, String data) throws InterruptedException {
+        Thread.sleep(3000);
+        logger.info(driver.currentActivity());
+        int activityInspectCount = config.getInspectConfig().getActivityInspectCount();
+        int activityInspectInterval = config.getInspectConfig().getActivityInspectInterval();
+        int i = 0;
+        Thread.sleep(activityInspectInterval);
+        while (i < activityInspectCount) {
+            try {
+                if (data.contains(driver.currentActivity())) {
+                    logger.info(data + "出现！");
+                    break;
+                }else {
+                    logger.info(data + "未出现，waiting......");
+                    Thread.sleep(activityInspectInterval);
+                    i++;
+                }
+            } catch (Exception e) {
+                i++;
+                logger.info("尝试" + activityInspectCount + "次，" + data + ",未出现");
+                //todo:false
+            }
+        }
 
     }
 }
