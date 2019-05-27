@@ -1,5 +1,6 @@
 package cn.futu.util;
 
+import cn.futu.base.BaseTest;
 import cn.futu.util.config.GlobalConfig;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -10,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Action {
-    static Logger logger = LoggerFactory.getLogger(Action.class);
-    static GlobalConfig config = GlobalConfig.load("/conf/globalConfig.yaml");
+    private static Logger logger = LoggerFactory.getLogger(Action.class);
+    private static GlobalConfig config = GlobalConfig.load("/conf/globalConfig.yaml");
     private AndroidDriver<AndroidElement> driver;
     private static Action action;
     private Action(){};
@@ -35,7 +36,7 @@ public class Action {
             try {
                 Thread.sleep(config.getInspectConfig().getElementInspectInterval());
             } catch (InterruptedException e1) {
-                //todo:测试结果置为false
+                BaseTest.testResult = false;
                 e1.printStackTrace();
             }
             mobileElement.click();
@@ -53,7 +54,7 @@ public class Action {
                 }
             }
         }catch (Exception e) {
-            //todo:false
+            BaseTest.testResult = false;
             e.printStackTrace();
         }
     }
@@ -67,7 +68,7 @@ public class Action {
             mobileElement.clear();
             mobileElement.sendKeys(data);
         }catch (Exception e) {
-            //todo:false
+            BaseTest.testResult = false;
             e.printStackTrace();
         }
     }
@@ -87,10 +88,10 @@ public class Action {
         try {
             actualResult = mobileElement.getAttribute("text");
             if (!actualResult.equals(data)) {
-                //todo:false
+                BaseTest.testResult = false;
             }
         }catch (Exception e) {
-            //todo:false
+            BaseTest.testResult = false;
         }
     }
     /**
@@ -116,7 +117,7 @@ public class Action {
             } catch (Exception e) {
                 i++;
                 logger.info("尝试" + activityInspectCount + "次，" + data + ",未出现");
-                //todo:false
+                BaseTest.testResult = false;
             }
         }
 

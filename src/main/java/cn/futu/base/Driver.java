@@ -48,8 +48,9 @@ public class Driver {
         appiumDriver.manage().timeouts().implicitlyWait(config.getAppiumConfig().getWait(), TimeUnit.SECONDS);
     }
 
-    public void startDriver(){
+    public AppiumDriver<AndroidElement> startDriver(){
         initDriver();
+        return appiumDriver;
     }
 
     public AppiumDriver<AndroidElement> getDriver(){

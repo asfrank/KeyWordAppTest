@@ -1,5 +1,6 @@
 package cn.futu.util;
 
+import cn.futu.base.BaseTest;
 import cn.futu.util.config.GlobalConfig;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -16,11 +17,11 @@ public class FindElement {
         MobileElement element = null;
         if (locator.startsWith("//")) {
             element = (MobileElement) driver.findElementByXPath(locator);
-        }else if (locator.contains(":id/")) {
-            element = (MobileElement) driver.findElementById(locator);
+        }else if (locator.contains("id")) {
+            element = (MobileElement) driver.findElementById(locator.split(":")[1]);
         }else {
             try {
-                element = (MobileElement) driver.findElementByAndroidUIAutomator("text(\""+locator+"\")");
+                element = (MobileElement) driver.findElementByXPath("//*[@text='" + locator + "']");
             }catch (Exception e) {
                 element = (MobileElement) driver.findElementByClassName(locator);
             }
@@ -40,11 +41,10 @@ public class FindElement {
                 return element;
             }catch (Exception e) {
                 logger.info("控件未出现，waiting.......");
-                continue;
             }
         }
         logger.info("超出最大定位尝试次数");
-        //todo:将测试结果置为失败
+        BaseTest.testResult = false;
         throw new IllegalArgumentException("在指定时间内未找到元素对象");
     }
 }
