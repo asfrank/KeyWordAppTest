@@ -46,17 +46,21 @@ public class DataProviderFromExcel {
      */
     private static String getCellValue(XSSFCell cell) {
         String strCell = "";
-        if (cell.getCellTypeEnum() == CellType.STRING) {
-            strCell = cell.getStringCellValue();
-        }else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
-            strCell = String.valueOf(cell.getNumericCellValue());
-            strCell = strCell.split(".")[0];
-        }else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
-            strCell = String.valueOf(cell.getBooleanCellValue());
-        }else if (cell.getCellTypeEnum() == CellType.BLANK) {
-            strCell = "";
-        }else {
-            strCell = "";
+        try {
+            if (cell.getCellTypeEnum() == CellType.STRING) {
+                strCell = cell.getStringCellValue();
+            }else if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                strCell = String.valueOf(cell.getNumericCellValue());
+                strCell = strCell.split(".")[0];
+            }else if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+                strCell = String.valueOf(cell.getBooleanCellValue());
+            }else if (cell.getCellTypeEnum() == CellType.BLANK) {
+                strCell = "";
+            }else {
+                strCell = "";
+            }
+        }catch (Exception e) {
+            strCell = "空";
         }
         return strCell;
     }
