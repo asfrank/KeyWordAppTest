@@ -30,7 +30,7 @@ public class FindElement {
         return (AndroidElement) element;
     }
 
-    public static MobileElement findElement(AndroidDriver<?> driver, String locator) throws InterruptedException {
+    public static MobileElement findElement(AndroidDriver<?> driver, String locator) throws Exception {
         int elementInspectCount = config.getInspectConfig().getElementInspectCount();
         int elementInspectInterval = config.getInspectConfig().getElementInspectInterval();
         MobileElement element = null;

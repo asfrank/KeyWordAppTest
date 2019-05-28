@@ -15,7 +15,9 @@ public class Constants {
         public static final int Suite_testCaseName = 0;
         public static final int Suite_testCaseDetail = 1;
         public static final int Suite_isRun = 2;
-        public static final int Suite_result = 3;
+        public static final int Suite_assertMethod = 3;
+        public static final int Suite_assertData = 4;
+        public static final int Suite_result = 5;
     }
 
     /**

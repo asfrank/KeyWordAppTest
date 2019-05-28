@@ -64,6 +64,12 @@ public class BaseTest {
             //获取测试用例详细的描述，只用来输出日志
             String testCaseDetail = DataProviderFromExcel.getCellData(Constants.TaskFile.Suite_sheet,
                     testSuiteNum, Constants.TaskFile.Suite_testCaseDetail).trim();
+            //获取断言方式
+            String testCaseAssertMethod = DataProviderFromExcel.getCellData(Constants.TaskFile.Suite_sheet,
+                    testSuiteNum, Constants.TaskFile.Suite_assertMethod).trim();
+            //获取断言数据
+            String testCaseAssertData = DataProviderFromExcel.getCellData(Constants.TaskFile.Suite_sheet,
+                    testSuiteNum, Constants.TaskFile.Suite_assertData).trim();
             //如果isRun的值为yes，则执行指定sheet页的测试步骤，sheet名与testCaseName相同
             if (isRun.equals("yes")) {
                 logger.info("运行测试用例----测试用例名称：" +testCaseName+ "；测试用例详细描述：" +testCaseDetail);
@@ -93,10 +99,31 @@ public class BaseTest {
                         Assert.fail("测试步骤未全部通过，测试用例执行失败！");
                         break;
                     }
-                    logger.info("测试用例执行结果为true");
+                }
+                //进行断言
+                try {
+                    if (testCaseAssertMethod.equals("查找元素")) {
+                        logger.info("断言中，waiting.............");
+                        FindElement.findElement((AndroidDriver<?>) driver, testCaseAssertData);
+                    }else if (testCaseAssertMethod.equals("内容包含")) {
+                        logger.info("断言中，waiting.............");
+                        String assertElement = testCaseAssertData.split(">")[0];
+                        String assertElementData = testCaseAssertData.split(">")[1];
+                        MobileElement element = FindElement.findElement((AndroidDriver<?>) driver, assertElement);
+                        if (!element.getText().equals(assertElementData)) {
+                            throw new Exception("未找到要断言的内容！");
+                        }
+                    }
+                    logger.info("断言成功，测试用例执行结果为true");
                     DataProviderFromExcel.setCellData(testSuiteNum, Constants.TaskFile.Suite_result,
                             true, fileSheet, filePath);
                     Assert.assertTrue(true, "测试用例执行成功");
+
+                }catch (IllegalArgumentException e) {
+                    logger.info("断言失败，测试用例执行结果为false");
+                    DataProviderFromExcel.setCellData(testSuiteNum, Constants.TaskFile.Suite_result,
+                            false, fileSheet, filePath);
+                    Assert.fail("测试步骤通过，断言失败，测试用例执行失败！");
                 }
             }
         }

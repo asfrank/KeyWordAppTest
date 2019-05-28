@@ -13,7 +13,7 @@ appiumConfig:
   maxretrycount: 2
 
 inspectConfig:
-  elementInspectCount: 5
+  elementInspectCount: 3
   elementInspectInterval: 1000
-  activityInspectCount: 5
+  activityInspectCount: 3
   activityInspectInterval: 1000
