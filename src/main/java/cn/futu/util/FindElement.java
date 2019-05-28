@@ -50,7 +50,7 @@ public class FindElement {
                 }
             }
         }
-        logger.info("超出最大定位尝试次数");
+        logger.info("元素定位信息："+locator+"，超出最大定位尝试次数");
         BaseTest.testResult = false;
         throw new IllegalArgumentException("在指定时间内未找到元素对象");
     }
