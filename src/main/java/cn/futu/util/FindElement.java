@@ -5,6 +5,7 @@ import cn.futu.util.config.GlobalConfig;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class FindElement {
         return (AndroidElement) element;
     }
 
-    public static MobileElement findElement(AndroidDriver<?> driver, String locator) throws Exception{
+    public static MobileElement findElement(AndroidDriver<?> driver, String locator) throws InterruptedException {
         int elementInspectCount = config.getInspectConfig().getElementInspectCount();
         int elementInspectInterval = config.getInspectConfig().getElementInspectInterval();
         MobileElement element = null;
@@ -40,8 +41,13 @@ public class FindElement {
                 logger.info("已经找到元素对象");
                 return element;
             }catch (Exception e) {
-                logger.info("控件未出现，waiting.......");
-                driver.findElementById("close_popup_ad_view").click();
+                logger.info("控件未出现，waiting.........");
+                try {
+                    logger.info("尝试定位广告弹窗,waiting.........");
+                    driver.findElementById("close_popup_ad_view").click();
+                }catch (NoSuchElementException e1) {
+                    logger.info("没有发现广告弹窗，retrying..........");
+                }
             }
         }
         logger.info("超出最大定位尝试次数");

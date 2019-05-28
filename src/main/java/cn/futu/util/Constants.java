@@ -24,6 +24,7 @@ public class Constants {
     public class CaseFile {
         public static final int Col_testCaseID = 0;
         public static final int Col_testStepID = 1;
+        public static final int Col_testStep_detail = 2;
         public static final int Col_inspector = 4;
         public static final int Col_actionStep = 5;
         public static final int Col_data = 6;

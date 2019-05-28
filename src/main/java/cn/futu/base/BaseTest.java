@@ -23,7 +23,8 @@ public class BaseTest {
     public static boolean testResult;
     //获取action方法
     protected static Method[] method;
-
+    //步骤描述
+    public static String testStepDetail;
     //对象识别关键字
     public static String inspector;
     //数据
@@ -65,7 +66,7 @@ public class BaseTest {
                     testSuiteNum, Constants.TaskFile.Suite_testCaseDetail).trim();
             //如果isRun的值为yes，则执行指定sheet页的测试步骤，sheet名与testCaseName相同
             if (isRun.equals("yes")) {
-                logger.info("运行测试用例：测试用例名称" +testCaseName+ ";测试用例详细描述：" +testCaseDetail);
+                logger.info("运行测试用例----测试用例名称：" +testCaseName+ "；测试用例详细描述：" +testCaseDetail);
                 //先将结果置为true
                 testResult = true;
                 int testCaseAllNum = DataProviderFromExcel.getAllRowNum(testCaseName);
@@ -77,11 +78,13 @@ public class BaseTest {
                     data = DataProviderFromExcel.getCellData(testCaseName, testCaseNum, Constants.CaseFile.Col_data).trim();
                     //获取操作方式
                     actionStep = DataProviderFromExcel.getCellData(testCaseName, testCaseNum, Constants.CaseFile.Col_actionStep).trim();
+                    //获取用例步骤描述
+                    testStepDetail = DataProviderFromExcel.getCellData(testCaseName, testCaseNum, Constants.CaseFile.Col_testStep_detail).trim();
                     //识别元素
                     if (!inspector.isEmpty()) {
                         mobileElement = FindElement.findElement((AndroidDriver<?>) driver, inspector);
                     }
-                    logger.info("执行测试步骤：识别方式："+inspector+"；操作："+actionStep+"；测试数据："+data);
+                    logger.info("执行测试步骤["+ testCaseNum +"]---步骤描述："+testStepDetail+"；元素定位符："+inspector+"；操作："+actionStep+"；测试数据："+data);
                     execute_Actions(testCaseNum, testCaseName);
                     if (!testResult) {
                         logger.info("测试用例执行结果为false");
