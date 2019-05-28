@@ -41,6 +41,7 @@ public class FindElement {
                 return element;
             }catch (Exception e) {
                 logger.info("控件未出现，waiting.......");
+                driver.findElementById("close_popup_ad_view").click();
             }
         }
         logger.info("超出最大定位尝试次数");
