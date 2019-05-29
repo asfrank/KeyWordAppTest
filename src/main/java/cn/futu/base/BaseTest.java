@@ -5,6 +5,7 @@ import cn.futu.util.Action;
 import cn.futu.util.Constants;
 import cn.futu.util.DataProviderFromExcel;
 import cn.futu.util.FindElement;
+import cn.futu.util.config.GlobalConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -16,6 +17,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class BaseTest {
     protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -24,16 +29,18 @@ public class BaseTest {
     //获取action方法
     protected static Method[] methods;
     //步骤描述
-    public static String testStepDetail;
+    protected static String testStepDetail;
     //对象识别关键字
-    public static String inspector;
+    protected static String inspector;
     //数据
-    public static String data;
+    protected static String data;
     //操作
-    public static String actionStep;
+    protected static String actionStep;
     //定义类
-    public static Action action;
-    public static MobileElement mobileElement = null;
+    protected static Action action;
+    protected static MobileElement mobileElement = null;
+    //截图保存路径
+    private static String screenShotPath;
 
     @BeforeClass
     public void setUp() {
@@ -97,6 +104,12 @@ public class BaseTest {
                             DataProviderFromExcel.setCellData(testCaseNum, Constants.CaseFile.Col_result,
                                     false, testCaseName, Constants.ExcelPath.FilePath);
                             logger.info("测试用例执行结果为false");
+                            //截图
+                            Calendar cal = Calendar.getInstance();
+                            Date date = cal.getTime();
+                            screenShotPath = getDateTime(date);
+                            Driver.screenShot(driver, screenShotPath);
+                            logger.info("截图中.......");
                             DataProviderFromExcel.setCellData(testSuiteNum, Constants.TaskFile.Suite_result,
                                     false, fileSheet, filePath);
                             Assert.fail("测试步骤未全部通过，测试用例执行失败！");
@@ -107,6 +120,12 @@ public class BaseTest {
                     execute_Actions(testCaseNum, testCaseName);
                     if (!testResult) {
                         logger.info("测试用例执行结果为false");
+                        //截图
+                        Calendar cal = Calendar.getInstance();
+                        Date date = cal.getTime();
+                        screenShotPath = getDateTime(date);
+                        Driver.screenShot(driver, screenShotPath);
+                        logger.info("截图中........");
                         DataProviderFromExcel.setCellData(testSuiteNum, Constants.TaskFile.Suite_result,
                                 false, fileSheet, filePath);
                         Assert.fail("测试步骤未全部通过，测试用例执行失败！");
@@ -135,6 +154,12 @@ public class BaseTest {
 
                     }catch (IllegalArgumentException e) {
                         logger.info("断言失败，测试用例执行结果为false");
+                        //截图
+                        Calendar cal = Calendar.getInstance();
+                        Date date = cal.getTime();
+                        screenShotPath = getDateTime(date);
+                        Driver.screenShot(driver, screenShotPath);
+                        logger.info("截图中........");
                         DataProviderFromExcel.setCellData(testSuiteNum, Constants.TaskFile.Suite_result,
                                 false, fileSheet, filePath);
                         Assert.fail("测试步骤通过，断言失败，测试用例执行失败！");
@@ -165,6 +190,18 @@ public class BaseTest {
             }
         }catch (Exception e) {
             logger.info("执行步骤出现异常"+ e.getMessage());
+            //截图
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            screenShotPath = getDateTime(date);
+            Driver.screenShot(driver, screenShotPath);
+            logger.info("截图中........");
         }
+    }
+
+    private String getDateTime(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        String screenShotPath = GlobalConfig.load("/conf/globalConfig.yaml").getAppiumConfig().getScreenShotPath() + "/"+ df.format(date) + ".png";
+        return screenShotPath;
     }
 }

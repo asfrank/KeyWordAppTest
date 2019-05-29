@@ -23,7 +23,7 @@ public class Driver {
 
     private Driver(){};
 
-    private Logger logger = LoggerFactory.getLogger(Driver.class);
+    private static Logger logger = LoggerFactory.getLogger(Driver.class);
 
     public static Driver getInstance() {
         if (driver == null) {
@@ -61,7 +61,7 @@ public class Driver {
         appiumDriver.quit();
     }
 
-    public void screenShot(String path){
+    public static void screenShot(AppiumDriver<AndroidElement> appiumDriver, String path){
         try {
             FileUtils.copyFile(appiumDriver.getScreenshotAs(OutputType.FILE),new File(path));
         } catch (IOException e) {

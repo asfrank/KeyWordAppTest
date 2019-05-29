@@ -8,6 +8,7 @@ public class AppiumConfig {
     private Integer wait;
     private Map<String,Object> capabilities;
     private int maxretrycount;
+    private String screenShotPath;
 
     public String getApp() {
         return app;
@@ -47,5 +48,13 @@ public class AppiumConfig {
 
     public void setMaxretrycount(int maxretrycount) {
         this.maxretrycount = maxretrycount;
+    }
+
+    public String getScreenShotPath() {
+        return screenShotPath;
+    }
+
+    public void setScreenShotPath(String screenShotPath) {
+        this.screenShotPath = screenShotPath;
     }
 }

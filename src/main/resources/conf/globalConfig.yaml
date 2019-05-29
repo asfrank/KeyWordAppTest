@@ -11,9 +11,10 @@ appiumConfig:
     resetKeyboard: true
     noReset: true
   maxretrycount: 2
+  screenShotPath: screenshot
 
 inspectConfig:
-  elementInspectCount: 3
+  elementInspectCount: 2
   elementInspectInterval: 1000
   activityInspectCount: 3
   activityInspectInterval: 1000
