@@ -43,10 +43,17 @@ public class FindElement {
             }catch (Exception e) {
                 logger.info("控件未出现，waiting.........");
                 try {
-                    logger.info("尝试定位广告弹窗,waiting.........");
+                    logger.info("尝试定位广告弹窗，waiting.........");
                     driver.findElementById("close_popup_ad_view").click();
                 }catch (NoSuchElementException e1) {
                     logger.info("没有发现广告弹窗，retrying..........");
+                    try {
+                        logger.info("尝试定位同步弹窗，waiting.........");
+                        driver.findElementByXPath("//*[@text='不同步']").click();
+//                    driver.findElementById("button2").click();
+                    } catch (NoSuchElementException e2) {
+                        logger.info("没有发现同步弹窗，retrying..........");
+                    }
                 }
             }
         }

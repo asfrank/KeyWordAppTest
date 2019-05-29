@@ -12,6 +12,4 @@ public class TestDemo extends BaseTest {
         String excelPath = Constants.ExcelPath.FilePath;
         base_Test(excelPath);
     }
-
-
 }
