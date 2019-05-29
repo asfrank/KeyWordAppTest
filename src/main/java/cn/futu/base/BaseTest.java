@@ -22,7 +22,7 @@ public class BaseTest {
     protected AppiumDriver<AndroidElement> driver;
     public static boolean testResult;
     //获取action方法
-    protected static Method[] method;
+    protected static Method[] methods;
     //步骤描述
     public static String testStepDetail;
     //对象识别关键字
@@ -48,7 +48,7 @@ public class BaseTest {
 
     public void base_Test(String filePath) throws Exception{
         action = Action.getInstance((AndroidDriver<AndroidElement>) driver);
-        method = action.getClass().getMethods();
+        methods = action.getClass().getMethods();
         DataProviderFromExcel.getExcel(filePath);
         String fileSheet = Constants.TaskFile.Suite_sheet;
         //获取测试集合中测试用例的总数
@@ -110,7 +110,7 @@ public class BaseTest {
                         String assertElement = testCaseAssertData.split(">")[0];
                         String assertElementData = testCaseAssertData.split(">")[1];
                         MobileElement element = FindElement.findElement((AndroidDriver<?>) driver, assertElement);
-                        if (!element.getText().equals(assertElementData)) {
+                        if (!element.getText().contains(assertElementData)) {
                             throw new Exception("未找到要断言的内容！");
                         }
                     }
@@ -131,18 +131,19 @@ public class BaseTest {
 
     private void execute_Actions(int testcaseNum, String testCaseName) throws Exception {
         try {
-            for (int i = 0;i<method.length;i++) {
-                if (method[i].getName().equals(actionStep)) {
-                    method[i].invoke(action, mobileElement, data);
+            for (Method method : methods) {
+                if (method.getName().equals(actionStep)) {
+                    method.invoke(action, mobileElement, data);
                     if (testResult) {
                         logger.info("测试步骤执行结果为true");
                         DataProviderFromExcel.setCellData(testcaseNum, Constants.CaseFile.Col_result,
                                 true, testCaseName, Constants.ExcelPath.FilePath);
                         break;
-                    }else {
+                    } else {
                         logger.info("测试步骤执行结果为false");
                         DataProviderFromExcel.setCellData(testcaseNum, Constants.CaseFile.Col_result,
                                 false, testCaseName, Constants.ExcelPath.FilePath);
+                        break;
                     }
                 }
             }
