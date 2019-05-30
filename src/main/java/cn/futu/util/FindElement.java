@@ -53,6 +53,14 @@ public class FindElement {
 //                    driver.findElementById("button2").click();
                     } catch (NoSuchElementException e2) {
                         logger.info("没有发现同步弹窗，retrying..........");
+                        try {
+                            logger.info("尝试定位教程弹窗，waiting..........");
+                            for (int a = 0;a<5;a++) {
+                                driver.findElementById("nextBtn").click();
+                            }
+                        }catch (NoSuchElementException e3) {
+                            logger.info("没有发现教程弹窗，retrying..........");
+                        }
                     }
                 }
             }
