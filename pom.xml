@@ -30,9 +30,6 @@
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <suiteXmlFiles>testng.xml</suiteXmlFiles>
-                    <includes>
-                        <include>cn.futu.testCase/**.java</include>
-                    </includes>
                     <systemProperties>
                         <property>
                             <name>allure.results.directory</name>
