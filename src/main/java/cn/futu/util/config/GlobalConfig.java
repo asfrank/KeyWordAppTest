@@ -5,6 +5,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 
+/**
+ *  使用jackson-dataformat-yaml库读取yaml文件
+ *  globalConfig中分为两部分：appiumConfig和inspectConfig
+ *  库GitHub地址：https://github.com/FasterXML/jackson-dataformats-text/tree/master/yaml
+ *  上面有具体的用法
+ */
 public class GlobalConfig {
     private AppiumConfig appiumConfig;
     private InspectConfig inspectConfig;

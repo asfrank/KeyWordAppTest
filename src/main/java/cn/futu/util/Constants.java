@@ -2,13 +2,13 @@ package cn.futu.util;
 
 public class Constants {
     /**
-     *  定义Excel文件路径
+     *  定义Excel文件路径，可修改
      */
     public class ExcelPath {
         public static final String FilePath = "data/demo.xlsx";
     }
     /**
-     *  测试调度文件列常量
+     *  测试调度文件列常量，即excel中第一个sheet页每一列的序号
      */
     public class TaskFile {
         public static final String Suite_sheet = "task";
@@ -21,7 +21,7 @@ public class Constants {
     }
 
     /**
-     *  测试用例文件列常量
+     *  测试用例文件列常量，即excel中具体执行步骤sheet页每一列的序号
      */
     public class CaseFile {
         public static final int Col_testCaseID = 0;

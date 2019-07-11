@@ -42,6 +42,7 @@ public class BaseTest {
     //截图保存路径
     private static String screenShotPath;
 
+    //所有的用例均继承此类，通过beforeclass注解初始化driver
     @BeforeClass
     public void setUp() {
         logger.info("初始化，启动driver");
@@ -135,9 +136,12 @@ public class BaseTest {
                 //进行断言
                 if (testResult) {
                     try {
+                        //目前支持两种断言方式，这是第一种，查找当前页面是否存在某个元素信息，在用例编写时填入断言方式：查找元素
                         if (testCaseAssertMethod.equals("查找元素")) {
                             logger.info("断言中，waiting.............");
                             FindElement.findElement((AndroidDriver<?>) driver, testCaseAssertData);
+                            //这是第二种断言方式，查找当前页面中是否包含某段文案，在用例编写时填入断言方式：内容包含
+                            // TODO: 2019/7/11 还可以自定义更多的断言方式
                         }else if (testCaseAssertMethod.equals("内容包含")) {
                             logger.info("断言中，waiting.............");
                             String assertElement = testCaseAssertData.split(">")[0];
@@ -170,10 +174,12 @@ public class BaseTest {
         }
     }
 
+    //用例执行的方法
     private void execute_Actions(int testcaseNum, String testCaseName) throws Exception {
         try {
             for (Method method : methods) {
                 if (method.getName().equals(actionStep)) {
+                    //根据方法名，调用action中对应的方法
                     method.invoke(action, mobileElement, data);
                     if (testResult) {
                         logger.info("测试步骤执行结果为true");
@@ -190,7 +196,7 @@ public class BaseTest {
             }
         }catch (Exception e) {
             logger.info("执行步骤出现异常"+ e.getMessage());
-            //截图
+            //执行步骤有异常，自动截图
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
             screenShotPath = getDateTime(date);
@@ -199,6 +205,7 @@ public class BaseTest {
         }
     }
 
+    //用于获取当前的时间戳，拼接生成截图的文件名
     private String getDateTime(Date date) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         String screenShotPath = GlobalConfig.load("/conf/globalConfig.yaml").getAppiumConfig().getScreenShotPath() + "/"+ df.format(date) + ".png";

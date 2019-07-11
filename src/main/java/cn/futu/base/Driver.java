@@ -25,6 +25,7 @@ public class Driver {
 
     private static Logger logger = LoggerFactory.getLogger(Driver.class);
 
+    //单例模式
     public static Driver getInstance() {
         if (driver == null) {
             driver = new Driver();
@@ -32,15 +33,19 @@ public class Driver {
         return driver;
     }
 
+    //初始化driver
     private void initDriver() {
         final DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+        //从配置文件中读取capabilities
         final GlobalConfig config = GlobalConfig.load("/conf/globalConfig.yaml");
+        //读出后通过setCapability方法，设置capabilities
         config.getAppiumConfig().getCapabilities().keySet().forEach(key->{
             Object value = config.getAppiumConfig().getCapabilities().get(key);
             desiredCapabilities.setCapability(key, value);
         });
 
         try {
+            //创建driver对象
             appiumDriver = new AndroidDriver<>(new URL(config.getAppiumConfig().getUrl()), desiredCapabilities);
         } catch (MalformedURLException e) {
             logger.warn("Driver初始化错误" + e.getStackTrace());
@@ -48,6 +53,7 @@ public class Driver {
         appiumDriver.manage().timeouts().implicitlyWait(config.getAppiumConfig().getWait(), TimeUnit.SECONDS);
     }
 
+    //初始化并返回driver对象
     public AppiumDriver<AndroidElement> startDriver(){
         initDriver();
         return appiumDriver;
@@ -61,6 +67,7 @@ public class Driver {
         appiumDriver.quit();
     }
 
+    //截图，通过调用appium自带的api：getScreenshotAs
     public static void screenShot(AppiumDriver<AndroidElement> appiumDriver, String path){
         try {
             FileUtils.copyFile(appiumDriver.getScreenshotAs(OutputType.FILE),new File(path));

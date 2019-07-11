@@ -2,6 +2,9 @@ package cn.futu.util.config;
 
 import java.util.Map;
 
+/**
+ * appium的相关配置，对应src/main/resources/conf/globalConfig.yaml文件的appiumConfig
+ */
 public class AppiumConfig {
     private String app;
     private String url;

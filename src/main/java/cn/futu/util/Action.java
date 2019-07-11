@@ -34,6 +34,7 @@ public class Action {
             mobileElement.click();
         }catch (Exception e) {
             try {
+                //没找到元素的话等待，从yaml中读取时间
                 Thread.sleep(config.getInspectConfig().getElementInspectInterval());
             } catch (InterruptedException e1) {
                 BaseTest.testResult = false;
@@ -81,7 +82,7 @@ public class Action {
     }
 
     /**
-     * 验证操作
+     * 验证操作,验证某个元素的文案是否和预期一致
      */
     public void verify(MobileElement mobileElement, String data) {
         String actualResult = "";
